@@ -1,3 +1,3 @@
 # Final-Project
-CS 3451 Computer Graphics Final Project, Spring 2024
+CS 3451 Computer Graphics Final Project, Spring 2024.__
 Our group team members are Joanna Zolnik, Jared Nation, and Tesfanesh Isabelle Keith.
