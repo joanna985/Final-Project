@@ -67,7 +67,7 @@ public:
 		int grassNum = 14;
 		for (int i = -14; i < grassNum; i++) {
 			for (int j = -14; j < grassNum; j++) {
-				auto grass = Add_Obj_Mesh_Object_From_File("garden/grass3.obj", OpenGLColor(0.0f, 0.8f, 0.0f, 1.0f));
+				auto grass = Add_Obj_Mesh_Object_From_File("resources/grass3.obj", OpenGLColor(0.0f, 0.8f, 0.0f, 1.0f));
 				{
 					Matrix4f t;
 					t << 1.2, 0., 0., i,

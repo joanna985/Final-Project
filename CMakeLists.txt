@@ -20,7 +20,6 @@ endif(NOT root_path)
 include_directories(${root_path}/ext/eigen)
 
 
-
 #include hearder and source files in /src
 file(GLOB_RECURSE src_cpp ${root_path}/src/*.cpp)
 file(GLOB_RECURSE src_h ${root_path}/src/*.h)
