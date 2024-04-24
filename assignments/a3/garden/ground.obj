@@ -1,0 +1,22 @@
+# Created by Open3D 
+# object name: ground
+# number of vertices: 4
+# number of triangles: 2
+mtllib ground.mtl
+v 0.5 -2.1516e-08 -0.434367
+vn -0 1 -0
+v -0.5 2.1516e-08 0.434367
+vn -0 1 -0
+v -0.5 0 -0.434367
+vn -0 1 -0
+v 0.5 2.1516e-08 0.434367
+vn -0 1 -0
+vt -50.7661 51.7661
+vt 51.7661 45.3579
+vt -50.7661 45.3579
+vt -50.7661 51.7661
+vt 51.7661 51.7661
+vt 51.7661 45.3579
+usemtl ground_1
+f 1/1/1 2/2/2 3/3/3
+f 1/4/1 4/5/4 2/6/2
