@@ -47,12 +47,34 @@ vec3 renderStars(vec2 uv)
     return fragColor;
 }
 
+
 void main()
 {
-    vec3 outputColor = renderStars(vtx_pos.xy);
+    // Calculate horizontal position (range from 0.0 to 1.0)
+    float horizontalPosition = (vtx_pos.y + 1.0) / 2.0;
 
-    vec2 uv = vec2(vtx_uv.x, -vtx_uv.y);
-    vec3 buzzColor = texture(tex_buzz, uv).xyz;
+    // Define colors for the gradient
+    vec3 orange = vec3(1.0, 0.8, 0.0) * 20.5;    // Orange
+    vec3 lightYellow = vec3(1.0, 1.0, 0.5) * 5.5; // Light Yellow
+    vec3 lightBlue = vec3(0.5, 0.5, 1.0) * 5.5;  // Light Blue
+    vec3 navy = vec3(0.0, 0.0, 0.2) * 15.5;       // Navy
+    vec3 darkNavy = vec3(0.0, 0.0, 0.1) * 15.5;   // Dark Navy (new color)
 
-    frag_color = vec4(mix(outputColor, buzzColor, (sin(iTime) + 1) * .5 * .2), 1.0);
+    // Calculate color transitions
+    vec3 orangeToYellow = mix(orange, lightYellow, horizontalPosition);
+    vec3 yellowToBlue = mix(lightYellow, lightBlue, horizontalPosition);
+    vec3 blueToNavy = mix(lightBlue, navy, horizontalPosition);
+    vec3 navyToDarkNavy = mix(navy, darkNavy, horizontalPosition); // New transition
+
+    // Interpolate between the final colors based on horizontal position
+    vec3 background_color = mix(orangeToYellow, yellowToBlue, horizontalPosition);
+    background_color = mix(background_color, blueToNavy, horizontalPosition);
+    background_color = mix(background_color, navyToDarkNavy, horizontalPosition); // Add new color transition
+
+    // Render starry effect
+    vec3 starColor = renderStars(vtx_pos.xy);
+
+    // Combine starry effect with background color
+    frag_color = vec4(mix(background_color, starColor, 0.8), 1.0); // Fully opaque
 }
+

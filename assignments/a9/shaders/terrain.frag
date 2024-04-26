@@ -41,8 +41,7 @@ uniform vec3 kd;            /* object material diffuse */
 uniform vec3 ks;            /* object material specular */
 uniform float shininess;    /* object material shininess */
 
-vec2 hash2(vec2 v)
-{
+vec2 hash2(vec2 v) {
 	vec2 rand = vec2(0,0);
 	
 	rand  = 50.0 * 1.05 * fract(v * 0.3183099 + vec2(0.71, 0.113));
@@ -50,8 +49,9 @@ vec2 hash2(vec2 v)
 	return rand;
 }
 
-float perlin_noise(vec2 v) 
-{
+
+
+float perlin_noise(vec2 v) {
     float noise = 0;
 	vec2 i = floor(v);
     vec2 f = fract(v);
@@ -64,8 +64,9 @@ float perlin_noise(vec2 v)
 	return noise;
 }
 
-float noiseOctave(vec2 v, int num)
-{
+
+
+float noiseOctave(vec2 v, int num) {
 	float sum = 0;
 	for(int i =0; i<num; i++){
 		sum += pow(2,-1*i) * perlin_noise(pow(2,i) * v);
@@ -73,15 +74,17 @@ float noiseOctave(vec2 v, int num)
 	return sum;
 }
 
-float height(vec2 v){
+
+
+float height(vec2 v) {
     float h = 0;
 	h = 0.75 * noiseOctave(v, 10);
 	if(h<0) h *= .5;
 	return h * 2.;
 }
 
-vec3 compute_normal(vec2 v, float d)
-{	
+
+vec3 compute_normal(vec2 v, float d) {	
 	vec3 normal_vector = vec3(0,0,0);
 	vec3 v1 = vec3(v.x + d, v.y, height(vec2(v.x + d, v.y)));
 	vec3 v2 = vec3(v.x - d, v.y, height(vec2(v.x - d, v.y)));
@@ -92,8 +95,8 @@ vec3 compute_normal(vec2 v, float d)
 	return normal_vector;
 }
 
-vec4 shading_phong(light li, vec3 e, vec3 p, vec3 s, vec3 n) 
-{
+
+vec4 shading_phong(light li, vec3 e, vec3 p, vec3 s, vec3 n) {
     vec3 v = normalize(e - p);
     vec3 l = normalize(s - p);
     vec3 r = normalize(reflect(-l, n));
@@ -105,26 +108,40 @@ vec4 shading_phong(light li, vec3 e, vec3 p, vec3 s, vec3 n)
     return vec4(ambColor + difColor + specColor, 1);
 }
 
-// Draw the terrain
-vec3 shading_terrain(vec3 pos) {
-	vec3 n = compute_normal(pos.xy, 0.01);
-	vec3 e = position.xyz;
-	vec3 p = pos.xyz;
-	vec3 s = lt[0].pos.xyz;
 
+
+// Color the terrain
+vec3 shading_terrain(vec3 pos) {
+    vec3 n = compute_normal(pos.xy, 0.01);
+    vec3 e = position.xyz;
+    vec3 p = pos.xyz;
+    vec3 s = lt[0].pos.xyz;
     n = normalize((model * vec4(n, 0)).xyz);
     p = (model * vec4(p, 1)).xyz;
 
-    vec3 color = shading_phong(lt[0], e, p, s, n).xyz;
+    // Compute ambient, diffuse, and specular components using Phong shading
+    vec3 phongColor = shading_phong(lt[0], e, p, s, n).xyz;
 
-	float h = pos.z + .8;
-	h = clamp(h, 0.0, 1.0);
-	vec3 emissiveColor = mix(vec3(.4,.6,.2), vec3(.4,.3,.2), h);
+    // Map height to color
+    float h = pos.z + 0.8;
+    h = clamp(h, 0.0, 1.0);
+    
+    // Adjust the range of height values to map to the desired color gradient
+    vec3 color = mix(vec3(0.0, 0.0, 1.0), vec3(0.7, 0.7, 1.0), h);
 
-	return color * emissiveColor;
+    // Make the points of highest elevation slightly lighter
+    if (h == 1.0) {
+        color += 0.1; // Increase brightness slightly
+    }
+
+    // Combine Phong shading with height-based color
+    vec3 finalColor = phongColor * color;
+
+    return finalColor;
 }
 
-void main()
-{
+
+
+void main() {
     frag_color = vec4(shading_terrain(vtx_pos), 1.0);
 }

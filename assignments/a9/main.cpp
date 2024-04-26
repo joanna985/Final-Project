@@ -70,7 +70,10 @@ public:
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bunny_normal.png", "bunny_normal");
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/window.png", "window_color");
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/buzz_color.png", "buzz_color");
+        
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/star.png", "star_color");
+        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/cloud.png", "cloud_color");
+
 
         // Add all the lights you need for the scene (no more than 4 lights)
         // The four parameters are position, ambient, diffuse, and specular.
@@ -92,47 +95,48 @@ public:
         // By default, Option (2) (Buzz stars) is turned on, and all the other three are commented out.
         
         // Background Option (1): Gradient color
-        /*
+        //navy gradient with stars
         {
             auto bg = Add_Interactive_Object<OpenGLBackground>();
-            bg->Set_Color(OpenGLColor(0.1f, 0.1f, 0.1f, 1.f), OpenGLColor(0.3f, 0.1f, .1f, 1.f));
+            //bg->Set_Color(OpenGLColor(0.0, 0.0, 0.2, 1.0), OpenGLColor(0.05, 0.05, 0.25, 1.0));
+            bg->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("stars"));
             bg->Initialize();
         }
-        */
+        
 
         // Background Option (2): Programmable Canvas
         // By default, we load a GT buzz + a number of stars
-        {
+        /*{
             bgEffect = Add_Interactive_Object<OpenGLBgEffect>();
             bgEffect->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("stars"));
-            bgEffect->Add_Texture("tex_buzz", OpenGLTextureLibrary::Get_Texture("buzz_color")); // bgEffect can also Add_Texture
+            //bgEffect->Add_Texture("tex_buzz", OpenGLTextureLibrary::Get_Texture("buzz_color")); // bgEffect can also Add_Texture
             bgEffect->Initialize();
-        }
+        }*/
         
+
         // Background Option (3): Sky box
         // Here we provide a default implementation of a sky box; customize it for your own sky box
-        
-        {
+        /*{
             // from https://www.humus.name/index.php?page=Textures
             const std::vector<std::string> cubemap_files{
-                "cubemap/posx.jpg",     // + X
-                "cubemap/negx.jpg",     // - X
-                "cubemap/posy.jpg",     // + Y
-                "cubemap/negy.jpg",     // - Y
-                "cubemap/posz.jpg",     // + Z
-                "cubemap/negz.jpg",     // - Z 
+                "cubemap/negx.jpg",     // + X
+                "cubemap/negy.jpg",     // - X
+                "cubemap/negz.jpg",     // + Y
+                "cubemap/posx.jpg",     // - Y
+                "cubemap/posy.jpg",     // + Z
+                "cubemap/posz.jpg",     // - Z 
             };
             OpenGLTextureLibrary::Instance()->Add_CubeMap_From_Files(cubemap_files, "cube_map");
 
             skybox = Add_Interactive_Object<OpenGLSkybox>();
             skybox->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("skybox"));
             skybox->Initialize();
-        }
+        }*/
         
 
         // Background Option (4): Sky sphere
         // Here we provide a default implementation of a textured sphere; customize it for your own sky sphere
-        {
+        /*{
             // create object by reading an obj mesh
             auto sphere = Add_Obj_Mesh_Object("obj/sphere.obj");
 
@@ -156,10 +160,11 @@ public:
 
             // bind shader to object
             sphere->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
-        }
+        }*/
+
 
         // Here we load a bunny object with the basic shader to show how to add an object into the scene
-        {
+        /*{
             // create object by reading an obj mesh
             auto bunny = Add_Obj_Mesh_Object("obj/bunny.obj");
 
@@ -183,7 +188,8 @@ public:
 
             // bind shader to object
             bunny->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
-        }
+        }*/
+
 
         // Here we show an example of adding a mesh with noise-terrain (A6)
         {
@@ -192,34 +198,51 @@ public:
 
             // set object's transform
             Matrix4f r, s, t;
-            r << 1, 0, 0, 0,
+
+            
+            float angle = -85.0f; // Angle in degrees
+            float angleRad = radians(angle); // Convert angle to radians
+
+            r << 1,          0,              0,  0,
+                0,  cos(angleRad), -sin(angleRad),  0,
+                0,  sin(angleRad),  cos(angleRad),  0,
+                0,          0,              0,  1;
+
+            /*r << 1, 0, 0, 0,
                 0, 0.5, 0.67, 0,
                 0, -0.67, 0.5, 0,
+                0, 0, 0, 1*/
+
+            //adjust terrain size using s matrix
+            s << 4.5, 0, 0, 0,
+                0, 4.5, 0, 0,
+                0, 0, 4.5, 0,
                 0, 0, 0, 1;
-            s << 0.5, 0, 0, 0,
-                0, 0.5, 0, 0,
-                0, 0, 0.5, 0,
-                0, 0, 0, 1;
-            t << 1, 0, 0, -2,
-                 0, 1, 0, 0.5,
+
+            //adjust terrain position
+            t << 1, 0, 0, -12.5, //sideways
+                 0, 1, 0, -4,//up
                  0, 0, 1, 0,
                  0, 0, 0, 1,
+
+                 
             terrain->Set_Model_Matrix(t * s * r);
 
             // set object's material
             terrain->Set_Ka(Vector3f(0.1f, 0.1f, 0.1f));
             terrain->Set_Kd(Vector3f(0.7f, 0.7f, 0.7f));
             terrain->Set_Ks(Vector3f(1, 1, 1));
-            terrain->Set_Shininess(128.f);
+            terrain->Set_Shininess(150.f);
 
             // bind shader to object (we do not bind texture for this object because we create noise for texture)
             terrain->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("terrain"));
         }
 
+
         // Here we show an example of adding a transparent object with alpha blending
         // This example will be useful if you implement objects such as tree leaves, grass blades, flower pedals, etc.
         // Alpha blending will be turned on automatically if your texture has the alpha channel
-        {
+        /*{
             // create object by reading an obj mesh
             auto sqad = Add_Obj_Mesh_Object("obj/sqad.obj");
 
@@ -236,20 +259,21 @@ public:
 
             // bind shader to object
             sqad->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("blend"));
-        }
+        }*/
+
 
         // Here we show an example of adding a billboard particle with a star shape using alpha blending
         // The billboard is rendered with its texture and is always facing the camera.
         // This example will be useful if you plan to implement a CPU-based particle system.
-        {
+        /*{
             // create object by reading an obj mesh
             auto sqad = Add_Obj_Mesh_Object("obj/sqad.obj");
 
             // set object's transform
             Matrix4f t;
-            t << 1, 0, 0, 0,
-                 0, 1, 0, 0,
-                 0, 0, 1, 2.5,
+            t << 1, 0, 0, 3,//sideways
+                 0, 1, 0, 1.5,//up
+                 0, 0, 1, 1,
                  0, 0, 0, 1;
             sqad->Set_Model_Matrix(t);
 
@@ -258,11 +282,11 @@ public:
 
             // bind shader to object
             sqad->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("billboard"));
-        }
+        }*/
+
 
         // Here we show an example of shading (ray-tracing) a sphere with environment mapping
-        
-        {
+        /*{
             // create object by reading an obj mesh
             auto sphere2 = Add_Obj_Mesh_Object("obj/sphere.obj");
 
@@ -276,8 +300,9 @@ public:
 
             // bind shader to object
             sphere2->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("environment")); // bind shader to object
-        }
+        }*/
         
+
 
         // This for-loop updates the rendering model for each object on the list
         for (auto &mesh_obj : mesh_object_array){
