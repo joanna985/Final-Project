@@ -41,13 +41,50 @@ uniform vec3 kd;            /* object material diffuse */
 uniform vec3 ks;            /* object material specular */
 uniform float shininess;    /* object material shininess */
 
-vec2 hash2(vec2 v) {
+/*vec2 hash2(vec2 v) {
 	vec2 rand = vec2(0,0);
 	
-	rand  = 50.0 * 1.05 * fract(v * 0.3183099 + vec2(0.71, 0.113));
-    rand = -1.0 + 2 * 1.05 * fract(rand.x * rand.y * (rand.x + rand.y) * rand);
+	//rand  = 50.0 * 1.05 * fract(v * 0.3183099 + vec2(0.71, 0.113));
+    //rand = -1.0 + 2 * 1.05 * fract(rand.x * rand.y * (rand.x + rand.y) * rand);
+
+	rand  = 52.5 * fract(v.yx * 0.31 + vec2(0.31, 0.113));
+    rand = -1.0 + 3.1 * fract(rand.x * rand.y * rand.yx);
 	return rand;
+}*/
+
+
+vec2 hash2(vec2 v) {
+    vec2 rand = vec2(1, 1);
+
+    // Your implementation of hash function
+    //rand = 50.0 * 1.05 * fract(v * 0.3183099 + vec2(0.71, 0.113));
+    //rand = -1.0 + 2 * 2.05 * fract(rand.x * rand.y * (rand.x + rand.y) * rand);
+    //vec2 rand = vec2(0.0);
+	rand.x = fract(sin(dot(v, vec2(12.9898, 78.233))) * 43758.5453);
+    rand.y = fract(sin(dot(v, vec2(35.6897, 41.7279))) * 269.6942);
+    /*if (v.y > ((v.x * v.x) - 10.0)) {
+        rand.x = fract(sin(dot(v, vec2(12.9898, 78.233))) * 43758.5453);
+        rand.y = fract(sin(dot(v, vec2(35.6897, 41.7279))) * 269.6942);
+
+    } else if (v.y < (-v.x - 15.0)) {
+		rand = 50.0 * 1.05 * fract(v * 0.3183099 + vec2(0.71, 0.113));
+    	rand = -1.0 + 2 * 2.05 * fract(rand.x * rand.y * (rand.x + rand.y) * rand);
+
+	} else {
+		rand = vec2(1, 1);
+	}*/
+	/*if (v.x < -10.0) {
+        rand.x = fract(sin(dot(v, vec2(12.9898, 78.233))) * 43758.5453);
+        rand.y = fract(sin(dot(v, vec2(35.6897, 41.7279))) * 269.6942);
+    } else {
+        rand = vec2(1, 1);
+    }*/
+
+    return rand;
+    //return rand;
 }
+
+
 
 
 
@@ -111,7 +148,7 @@ vec4 shading_phong(light li, vec3 e, vec3 p, vec3 s, vec3 n) {
 
 
 // Color the terrain
-vec3 shading_terrain(vec3 pos) {
+/*vec3 shading_terrain(vec3 pos) {
     vec3 n = compute_normal(pos.xy, 0.01);
     vec3 e = position.xyz;
     vec3 p = pos.xyz;
@@ -138,11 +175,40 @@ vec3 shading_terrain(vec3 pos) {
     vec3 finalColor = phongColor * color;
 
     return finalColor;
+}*/
+
+
+//Custom Function
+vec3 shading_grass(vec3 pos) {
+	vec3 n = compute_normal(pos.xy, 0.01);
+    vec3 e = position.xyz;
+    vec3 p = pos.xyz;
+    vec3 s = lt[0].pos.xyz;
+    n = normalize((model * vec4(n, 0)).xyz);
+    p = (model * vec4(p, 1)).xyz;
+
+    // Compute ambient, diffuse, and specular components using Phong shading
+    vec3 phongColor = shading_phong(lt[0], e, p, s, n).xyz;
+
+    // Map height to color
+    float h = pos.z + 0.8;
+    h = clamp(h, 0.0, .5);
+    
+    // Adjust the range of height values to map to the desired color gradient
+    vec3 color = mix(vec3(0.0, 0.2, 0.0), vec3(0.0, 0.2, 0.0), h);
+
+    // Make the points of highest elevation slightly lighter
+    if (h == .5) {
+        color += .5; // Increase brightness slightly
+    }
+
+    // Combine Phong shading with height-based color
+    vec3 finalColor = phongColor * color;
+
+    return finalColor;
 }
 
 
-
 void main() {
-	
-    frag_color = vec4(shading_terrain(vtx_pos), 1.0);
+    frag_color = vec4(shading_grass(vtx_pos), 1.0);
 }

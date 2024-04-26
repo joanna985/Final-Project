@@ -66,13 +66,18 @@ public:
 
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/earth_color.png", "sphere_color");
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/earth_normal.png", "sphere_normal");
+
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bunny_color.jpg", "bunny_color");
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bunny_normal.png", "bunny_normal");
+
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/window.png", "window_color");
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/buzz_color.png", "buzz_color");
         
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/star.png", "star_color");
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/cloud.png", "cloud_color");
+
+
+
 
 
         //LIGHTING
@@ -202,6 +207,8 @@ public:
         }*/
 
 
+
+
         // Here we show an example of adding a mesh with noise-terrain (A6)
         {
             // create object by reading an obj mesh
@@ -225,13 +232,13 @@ public:
                 0, 0, 0, 1*/
 
             //adjust terrain size using s matrix
-            s << 4.5, 0, 0, 0,
-                0, 4.5, 0, 0,
-                0, 0, 4.5, 0,
+            s << 6.5, 0, 0, 0,
+                0, 6.5, 0, 0,
+                0, 0, 6.5, 0,
                 0, 0, 0, 1;
 
             //adjust terrain position
-            t << 1, 0, 0, -12.5, //sideways
+            t << 1, 0, 0, -14.5, //sideways
                  0, 1, 0, -4,//up
                  0, 0, 1, 0,
                  0, 0, 0, 1,
