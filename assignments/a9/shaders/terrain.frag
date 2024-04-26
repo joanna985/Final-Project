@@ -143,5 +143,6 @@ vec3 shading_terrain(vec3 pos) {
 
 
 void main() {
+	
     frag_color = vec4(shading_terrain(vtx_pos), 1.0);
 }

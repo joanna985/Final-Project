@@ -14,25 +14,22 @@ out vec4 frag_color;
 #define NUM_STAR 100.
 
 // return random vec2 between 0 and 1
-vec2 hash2d(float t)
-{
+vec2 hash2d(float t) {
     t += 1.;
     float x = fract(sin(t * 674.3) * 453.2);
     float y = fract(sin((t + x) * 714.3) * 263.2);
-
     return vec2(x, y);
 }
 
-vec3 renderParticle(vec2 uv, vec2 pos, float brightness, vec3 color)
-{
+
+vec3 renderParticle(vec2 uv, vec2 pos, float brightness, vec3 color) {
     float d = length(uv - pos);
     return brightness / d * color;
 }
 
-vec3 renderStars(vec2 uv)
-{
-    vec3 fragColor = vec3(0.0);
 
+vec3 renderStars(vec2 uv) {
+    vec3 fragColor = vec3(0.0);
     float t = iTime;
     for(float i = 0.; i < NUM_STAR; i++)
     {
@@ -48,8 +45,7 @@ vec3 renderStars(vec2 uv)
 }
 
 
-void main()
-{
+void main() {
     // Calculate horizontal position (range from 0.0 to 1.0)
     float horizontalPosition = (vtx_pos.y + 1.0) / 2.0;
 

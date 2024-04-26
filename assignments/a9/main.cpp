@@ -75,8 +75,10 @@ public:
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/cloud.png", "cloud_color");
 
 
+        //LIGHTING
         // Add all the lights you need for the scene (no more than 4 lights)
         // The four parameters are position, ambient, diffuse, and specular.
+
         // The lights you declared here will be synchronized to all shaders in uniform lights.
         // You may access these lights using lt[0].pos, lt[1].amb, lt[1].dif, etc.
         // You can also create your own lights by directly declaring them in a shader without using Add_Light().
@@ -85,6 +87,15 @@ public:
         opengl_window->Add_Light(Vector3f(3, 1, 3), Vector3f(0.1, 0.1, 0.1), Vector3f(1, 1, 1), Vector3f(0.5, 0.5, 0.5)); 
         opengl_window->Add_Light(Vector3f(0, 0, -5), Vector3f(0.1, 0.1, 0.1), Vector3f(0.9, 0.9, 0.9), Vector3f(0.5, 0.5, 0.5));
         opengl_window->Add_Light(Vector3f(-5, 1, 3), Vector3f(0.1, 0.1, 0.1), Vector3f(0.9, 0.9, 0.9), Vector3f(0.5, 0.5, 0.5));
+
+        opengl_window->Add_Light(Vector3f(5, 1, 3), Vector3f(0.3, 0.3, 0.3), Vector3f(0.9, 0.9, 0.9), Vector3f(0.5, 0.5, 0.5));
+
+
+
+
+
+
+
 
         // Add the background / environment
         // Here we provide you with four default options to create the background of your scene:
