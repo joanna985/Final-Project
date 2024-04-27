@@ -182,15 +182,15 @@ public:
 
 
         // Here we load a bunny object with the basic shader to show how to add an object into the scene
-        /*{
+        {
             // create object by reading an obj mesh
             auto bunny = Add_Obj_Mesh_Object("obj/bunny.obj");
 
             // set object's transform
             Matrix4f t;
-            t << 1, 0, 0, 1.5,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
+            t << .6, 0, 0, 5.5,
+                0, .6, 0, -1.0,
+                0, 0, .6, -20.0,
                 0, 0, 0, 1;
             bunny->Set_Model_Matrix(t);
 
@@ -206,7 +206,7 @@ public:
 
             // bind shader to object
             bunny->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
-        }*/
+        }
 
 
         {
@@ -400,6 +400,110 @@ public:
             t << .022, 0, 0, -7.0,
                 0, .022, 0, -2.0,
                 0, 0, .022, -16,
+                0, 0, 0, 1;
+
+            pinetree5->Set_Model_Matrix(t * r);
+            // set object's material
+            pinetree5->Set_Ka(Vector3f(0.1, 0.1, 0.1));
+            pinetree5->Set_Kd(Vector3f(0.7, 0.7, 0.7));
+            pinetree5->Set_Ks(Vector3f(2, 2, 2));
+            pinetree5->Set_Shininess(128);
+            // bind texture to object
+            pinetree5->Add_Texture("tex_color", OpenGLTextureLibrary::Get_Texture("tree_color"));
+            // bind shader to object
+            pinetree5->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
+        }
+
+
+
+
+        {
+            // create object by reading an obj mesh
+            auto pinetree5 = Add_Obj_Mesh_Object("obj/tree.obj");
+            // set object's transform
+            Matrix4f t;
+            Matrix4f r;
+
+            float angle = -85.0f; // Angle in degrees
+            float angleRad = radians(angle);
+            
+
+            r << 1.0, 0.0, 0.0, 0.0,
+                0.0, cos(angleRad),  -sin(angleRad),  0.0,
+                0.0, sin(angleRad),   cos(angleRad),  0.0,
+                0.0, 0.0, 0.0, 1.0;
+            
+            t << .014, 0, 0, -5.0,
+                0, .014, 0, -2.0,
+                0, 0, .014, -14,
+                0, 0, 0, 1;
+
+            pinetree5->Set_Model_Matrix(t * r);
+            // set object's material
+            pinetree5->Set_Ka(Vector3f(0.1, 0.1, 0.1));
+            pinetree5->Set_Kd(Vector3f(0.7, 0.7, 0.7));
+            pinetree5->Set_Ks(Vector3f(2, 2, 2));
+            pinetree5->Set_Shininess(128);
+            // bind texture to object
+            pinetree5->Add_Texture("tex_color", OpenGLTextureLibrary::Get_Texture("tree_color"));
+            // bind shader to object
+            pinetree5->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
+        }
+
+
+        {
+            // create object by reading an obj mesh
+            auto pinetree5 = Add_Obj_Mesh_Object("obj/tree.obj");
+            // set object's transform
+            Matrix4f t;
+            Matrix4f r;
+
+            float angle = -85.0f; // Angle in degrees
+            float angleRad = radians(angle);
+            
+
+            r << 1.0, 0.0, 0.0, 0.0,
+                0.0, cos(angleRad),  -sin(angleRad),  0.0,
+                0.0, sin(angleRad),   cos(angleRad),  0.0,
+                0.0, 0.0, 0.0, 1.0;
+            
+            t << .024, 0, 0, 5.0,
+                0, .024, 0, -2.0,
+                0, 0, .024, -25,
+                0, 0, 0, 1;
+
+            pinetree5->Set_Model_Matrix(t * r);
+            // set object's material
+            pinetree5->Set_Ka(Vector3f(0.1, 0.1, 0.1));
+            pinetree5->Set_Kd(Vector3f(0.7, 0.7, 0.7));
+            pinetree5->Set_Ks(Vector3f(2, 2, 2));
+            pinetree5->Set_Shininess(128);
+            // bind texture to object
+            pinetree5->Add_Texture("tex_color", OpenGLTextureLibrary::Get_Texture("tree_color"));
+            // bind shader to object
+            pinetree5->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
+        }
+
+
+        {
+            // create object by reading an obj mesh
+            auto pinetree5 = Add_Obj_Mesh_Object("obj/tree.obj");
+            // set object's transform
+            Matrix4f t;
+            Matrix4f r;
+
+            float angle = -85.0f; // Angle in degrees
+            float angleRad = radians(angle);
+            
+
+            r << 1.0, 0.0, 0.0, 0.0,
+                0.0, cos(angleRad),  -sin(angleRad),  0.0,
+                0.0, sin(angleRad),   cos(angleRad),  0.0,
+                0.0, 0.0, 0.0, 1.0;
+            
+            t << .018, 0, 0, 8.0,
+                0, .018, 0, -2.0,
+                0, 0, .018, -21,
                 0, 0, 0, 1;
 
             pinetree5->Set_Model_Matrix(t * r);
