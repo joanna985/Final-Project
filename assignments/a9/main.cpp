@@ -76,6 +76,8 @@ public:
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/star.png", "star_color");
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/cloud.png", "cloud_color");
 
+        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/tree.jpg", "tree_color");
+
 
 
 
@@ -93,7 +95,7 @@ public:
         opengl_window->Add_Light(Vector3f(0, 0, -5), Vector3f(0.1, 0.1, 0.1), Vector3f(0.9, 0.9, 0.9), Vector3f(0.5, 0.5, 0.5));
         opengl_window->Add_Light(Vector3f(-5, 1, 3), Vector3f(0.1, 0.1, 0.1), Vector3f(0.9, 0.9, 0.9), Vector3f(0.5, 0.5, 0.5));
 
-        opengl_window->Add_Light(Vector3f(5, 1, 3), Vector3f(0.3, 0.3, 0.3), Vector3f(0.9, 0.9, 0.9), Vector3f(0.5, 0.5, 0.5));
+        opengl_window->Add_Light(Vector3f(0, 0, 0), Vector3f(0.3, 0.3, 0.3), Vector3f(0.9, 0.9, 0.9), Vector3f(0.5, 0.5, 0.5));
 
 
 
@@ -205,6 +207,40 @@ public:
             // bind shader to object
             bunny->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
         }*/
+
+
+        {
+            // create object by reading an obj mesh
+            auto pinetree = Add_Obj_Mesh_Object("obj/tree.obj");
+            // set object's transform
+            Matrix4f t;
+            Matrix4f r;
+
+            float angle = -85.0f; // Angle in degrees
+            float angleRad = radians(angle);
+            
+
+            r << 1.0, 0.0, 0.0, 0.0,
+                0.0, cos(angleRad),  -sin(angleRad),  0.0,
+                0.0, sin(angleRad),   cos(angleRad),  0.0,
+                0.0, 0.0, 0.0, 1.0;
+            
+            t << .01, 0, 0, 6.0,
+                0, .01, 0, -2.5,
+                0, 0, .01, -20,
+                0, 0, 0, 1;
+
+            pinetree->Set_Model_Matrix(t * r);
+            // set object's material
+            pinetree->Set_Ka(Vector3f(0.1, 0.1, 0.1));
+            pinetree->Set_Kd(Vector3f(0.7, 0.7, 0.7));
+            pinetree->Set_Ks(Vector3f(2, 2, 2));
+            pinetree->Set_Shininess(128);
+            // bind texture to object
+            pinetree->Add_Texture("tex_color", OpenGLTextureLibrary::Get_Texture("tree_color"));
+            // bind shader to object
+            pinetree->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
+        }
 
 
 
