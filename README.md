@@ -3,9 +3,10 @@ Team Members: Tesfanesh Keith, Jared Nation, and Joanna Zolnik <br/>
 
 <h2> Commands to run the project: </h2> <br/>
 .\scripts\setup.bat <br/>
-.\scripts\run_assignment.bat a9 <br/>
+.\scripts\run_assignment.bat a9 <br/> <br/>
 
-The title of this scene is "Hero's Journey in Nature" <br/>
+<h3> The title of this scene is "Hero's Journey in Nature" </h3> <br/> <br/>
+
 This scene is of a man who is in harmony with animals and nature around him. He is walking through <br/>
 a forrest on a journey and woodland creatures are around him. The scene is very peaceful. <br/>
 There is a man walking through the forrest, and woodland animals are gathering with him while he is on a journey.<br/>
