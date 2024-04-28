@@ -5,7 +5,7 @@ Team Members: Tesfanesh Keith, Jared Nation, and Joanna Zolnik <br/>
 .\scripts\setup.bat <br/>
 .\scripts\run_assignment.bat a9 <br/> <br/>
 
-<h3> The title of this scene is "Hero's Journey in Nature" </h3> <br/> <br/>
+<h3> The title of this scene is "Hero's Journey in Nature" </h3> <br/>
 
 This scene is of a man who is in harmony with animals and nature around him. He is walking through <br/>
 a forrest on a journey and woodland creatures are around him. The scene is very peaceful. <br/>
