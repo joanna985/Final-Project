@@ -36,8 +36,25 @@ public:
         OpenGLViewer::Initialize();
     }
 
-    virtual void Initialize_Data()
-    {
+
+    /*JOANNA ZOLNIK'S ALGORITHM-PROCEDURAL GRASS GENERATION
+    In this algorithm, I use procedural generation to cover the terrain in grass.
+    I will be using a procedural noise function in this modeling algorithm.
+    The modeling algorithm that I will use is simplex noise.*/
+    /*virtual vec2 SimplexNoise(vec2 pos) {
+        return 
+    }
+
+    virtual void SimplexGrassModeling() {
+
+        for () {
+
+        }
+    }*/
+
+
+
+    virtual void Initialize_Data() {
         // Load all the shaders you need for the scene 
         // In the function call of Add_Shader_From_File(), we specify three names: 
         // (1) vertex shader file name
@@ -109,11 +126,6 @@ public:
         opengl_window->Add_Light(Vector3f(10, 20, 10), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
         opengl_window->Add_Light(Vector3f(5, 20, 20), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
         
-
-
-
-
-
 
 
         // Add the background / environment

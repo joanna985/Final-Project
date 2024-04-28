@@ -12,6 +12,7 @@ in vec2 vtx_uv; // [0, 1]
 out vec4 frag_color;
 
 #define NUM_STAR 100.
+#define NUM_FIREFLIES 150.
 
 // return random vec2 between 0 and 1
 vec2 hash2d(float t) {
@@ -43,6 +44,7 @@ vec3 renderStars(vec2 uv) {
 
     return fragColor;
 }
+
 
 
 void main() {
