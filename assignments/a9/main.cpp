@@ -79,6 +79,10 @@ public:
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/tree.jpg", "tree_color");
 
 
+        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/deer.jpg", "deer_color");
+        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/raccoon.jpg", "raccoon_color");
+
+
 
 
 
@@ -188,9 +192,9 @@ public:
 
             // set object's transform
             Matrix4f t;
-            t << .6, 0, 0, 5.5,
-                0, .6, 0, -1.0,
-                0, 0, .6, -20.0,
+            t << .3, 0, 0, 3.8,
+                0, .3, 0, -2.6,
+                0, 0, .3, -13.0,
                 0, 0, 0, 1;
             bunny->Set_Model_Matrix(t);
 
@@ -207,6 +211,120 @@ public:
             // bind shader to object
             bunny->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
         }
+
+
+
+        {
+            // create object by reading an obj mesh
+            auto deer = Add_Obj_Mesh_Object("obj/deer.obj");
+
+            // set object's transform
+
+            Matrix4f t;
+            Matrix4f r;
+            Matrix4f k;
+            
+            float angle = -79.0f; // Angle in degrees
+            float angleRad = radians(angle);
+
+            float z_angle = 210.0f; // Angle in degrees
+            float z_angleRad = radians(z_angle);
+
+
+            //rotate deer around the z axis
+            k << cos(z_angleRad), -sin(z_angleRad), 0.0, 0.0,
+                sin(z_angleRad), cos(z_angleRad), 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0;
+
+
+            //rotate deer around the x axis
+            r << 1.0, 0.0, 0.0, 0.0,
+                0.0, cos(angleRad),  -sin(angleRad),  0.0,
+                0.0, sin(angleRad),   cos(angleRad),  0.0,
+                0.0, 0.0, 0.0, 1.0;
+
+
+            t << .088, 0, 0, 1.5,
+                0, .088, 0, -2.6,
+                0, 0, .088, -15.0,
+                0, 0, 0, 1;
+
+
+            deer->Set_Model_Matrix(t * r * k);
+
+            // set object's material
+            deer->Set_Ka(Vector3f(0.1, 0.1, 0.1));
+            deer->Set_Kd(Vector3f(0.7, 0.7, 0.7));
+            deer->Set_Ks(Vector3f(2, 2, 2));
+            deer->Set_Shininess(128);
+
+            // bind texture to object
+            deer->Add_Texture("tex_color", OpenGLTextureLibrary::Get_Texture("deer_color"));
+            //deer->Add_Texture("tex_normal", OpenGLTextureLibrary::Get_Texture("bunny_normal"));
+
+            // bind shader to object
+            deer->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
+        }
+
+
+
+        {
+            // create object by reading an obj mesh
+            auto raccoon = Add_Obj_Mesh_Object("obj/raccoon.obj");
+
+            // set object's transform
+
+            Matrix4f t;
+            Matrix4f r;
+            Matrix4f k;
+            
+            float angle = -79.0f; // Angle in degrees
+            float angleRad = radians(angle);
+
+            float z_angle = 40.0f; // Angle in degrees
+            float z_angleRad = radians(z_angle);
+
+
+            //rotate deer around the z axis
+            k << cos(z_angleRad), -sin(z_angleRad), 0.0, 0.0,
+                sin(z_angleRad), cos(z_angleRad), 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0;
+
+
+            //rotate deer around the x axis
+            r << 1.0, 0.0, 0.0, 0.0,
+                0.0, cos(angleRad),  -sin(angleRad),  0.0,
+                0.0, sin(angleRad),   cos(angleRad),  0.0,
+                0.0, 0.0, 0.0, 1.0;
+
+
+            t << .037, 0, 0, -2.5,
+                0, .037, 0, -2.6,
+                0, 0, .037, -13.0,
+                0, 0, 0, 1;
+
+
+            raccoon->Set_Model_Matrix(t * r * k);
+
+            // set object's material
+            raccoon->Set_Ka(Vector3f(0.1, 0.1, 0.1));
+            raccoon->Set_Kd(Vector3f(0.7, 0.7, 0.7));
+            raccoon->Set_Ks(Vector3f(2, 2, 2));
+            raccoon->Set_Shininess(128);
+
+            // bind texture to object
+            raccoon->Add_Texture("tex_color", OpenGLTextureLibrary::Get_Texture("raccoon_color"));
+            //deer->Add_Texture("tex_normal", OpenGLTextureLibrary::Get_Texture("bunny_normal"));
+
+            // bind shader to object
+            raccoon->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
+        }
+
+
+
+
 
 
         {
