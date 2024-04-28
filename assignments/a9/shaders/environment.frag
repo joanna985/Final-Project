@@ -10,6 +10,8 @@ layout(std140) uniform camera
     vec4 position;		/*camera's position in world space*/
 };
 
+
+
 /* set light ubo. do not modify.*/
 struct light
 {
@@ -22,6 +24,8 @@ struct light
 	vec4 atten;
 	vec4 r;
 };
+
+
 layout(std140) uniform lights
 {
 	vec4 amb;
@@ -42,9 +46,39 @@ in vec3 vtx_tangent;
 /*output variables*/
 out vec4 frag_color;
 
+
+
+
 void main()
 {
-    // vec3 color = shading_texture_with_checkerboard();
+
+	// Initialize final color with ambient light
+    vec3 finalColor = lights.amb.rgb;
+
+    // Iterate over all lights
+    for (int i = 0; i < lights.lt_att.x; ++i) {
+        // Calculate light direction and distance
+        vec3 lightDir = normalize(lights.lt[i].pos.xyz - vtx_position);
+        float distanceToLight = length(lights.lt[i].pos.xyz - vtx_position);
+
+        // Calculate diffuse and specular contributions
+        float diffuseFactor = max(dot(lightDir, normalize(vtx_normal)), 0.0);
+        vec3 diffuse = lights.lt[i].dif.rgb * diffuseFactor;
+
+        // Add diffuse contribution to final color
+        finalColor += diffuse;
+
+        // Calculate specular contribution (you need to implement this)
+
+        // Apply attenuation (you need to implement this)
+
+        // Apply any other lighting effects here
+
+        // Optionally, break the loop if you reached the maximum number of lights
+        if (i >= 3) break;
+    }
+
+    //vec3 color = shading_texture_with_checkerboard();
     vec3 I = normalize(position.xyz - vtx_position);
     vec3 R = reflect(I, normalize(vtx_normal));
     vec3 color = texture(skybox, vec3(R.x, -R.y, -R.z)).rgb;

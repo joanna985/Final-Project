@@ -87,7 +87,7 @@ public:
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bird.jpg", "bird_color");
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bird_normal.jpg", "bird_normal");
 
-        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/redbird_color.jpg", "bluebird_color");
+        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bluebird_color.jpg", "bluebird_color");
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bluebird_normal.jpg", "bluebird_normal");
 
 
@@ -100,12 +100,11 @@ public:
         // You can also create your own lights by directly declaring them in a shader without using Add_Light().
         // Here we declared three default lights for you. Feel free to add/delete/change them at your will.
 
-        opengl_window->Add_Light(Vector3f(3, 1, 3), Vector3f(0.1, 0.1, 0.1), Vector3f(1, 1, 1), Vector3f(0.5, 0.5, 0.5)); 
-        opengl_window->Add_Light(Vector3f(0, 0, -5), Vector3f(0.1, 0.1, 0.1), Vector3f(0.9, 0.9, 0.9), Vector3f(0.5, 0.5, 0.5));
-        opengl_window->Add_Light(Vector3f(-5, 1, 3), Vector3f(0.1, 0.1, 0.1), Vector3f(0.9, 0.9, 0.9), Vector3f(0.5, 0.5, 0.5));
-
-        opengl_window->Add_Light(Vector3f(0, 0, 0), Vector3f(0.3, 0.3, 0.3), Vector3f(0.9, 0.9, 0.9), Vector3f(0.5, 0.5, 0.5));
-
+        opengl_window->Add_Light(Vector3f(-2, 20,-15), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1)); 
+        opengl_window->Add_Light(Vector3f(-10, 20,-5), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
+        opengl_window->Add_Light(Vector3f(10, 20,10), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
+        opengl_window->Add_Light(Vector3f(5, 20,20), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
+        
 
 
 
@@ -328,7 +327,7 @@ public:
         }
 
 
-        {
+        /*{
             // create object by reading an obj mesh
             auto fox = Add_Obj_Mesh_Object("obj/fox.obj");
 
@@ -379,7 +378,7 @@ public:
 
             // bind shader to object
             fox->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
-        }
+        }*/
 
 
         //yellow bird
