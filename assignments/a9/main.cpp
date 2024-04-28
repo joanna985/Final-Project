@@ -37,18 +37,15 @@ public:
     }
 
 
-    /*JOANNA ZOLNIK'S ALGORITHM-PROCEDURAL GRASS GENERATION
+    /*Joanna's algorithm
     In this algorithm, I use procedural generation to cover the terrain in grass.
     I will be using a procedural noise function in this modeling algorithm.
     The modeling algorithm that I will use is simplex noise.*/
     /*virtual vec2 SimplexNoise(vec2 pos) {
         return 
     }
-
     virtual void SimplexGrassModeling() {
-
         for () {
-
         }
     }*/
 

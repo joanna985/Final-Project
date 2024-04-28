@@ -178,7 +178,7 @@ vec4 shading_phong(light li, vec3 e, vec3 p, vec3 s, vec3 n) {
 }*/
 
 
-//Custom Function
+
 vec3 shading_grass(vec3 pos) {
 	vec3 n = compute_normal(pos.xy, 0.01);
     vec3 e = position.xyz;
