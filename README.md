@@ -5,8 +5,10 @@ Team Members: Tesfanesh Keith, Jared Nation, and Joanna Zolnik <br/>
 .\scripts\setup.bat <br/>
 .\scripts\run_assignment.bat a9 <br/>
 
-The title of this scene is "Forrest Sunset." It depicts woodland creatures of the forrest standing together among the trees while the sun has set below the horizon.<br/>
-Light is coming from the sun over the horizon, and shadows from the trees and animals are on the ground. It's a peaceful scene.
+The title of this scene is "Forrest Sunset." <br/>
+Woodland creatures of the forrest are gathering together among the trees while the sun has set below the horizon.<br/>
+It's a peaceful scene.
 
-![image](https://github.com/joanna985/Final-Project/assets/66742170/989e22a8-51dd-4ab2-b32a-059f6ad52540)
+![image](https://github.com/joanna985/Final-Project/assets/66742170/0e0c3a50-1476-4551-a70c-0371c40f773d)
+
 
