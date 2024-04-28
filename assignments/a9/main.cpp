@@ -81,9 +81,11 @@ public:
 
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/deer.jpg", "deer_color");
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/raccoon.jpg", "raccoon_color");
+        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/fox.png", "fox_color");
 
 
-
+        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bird.jpg", "bird_color");
+        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bird_normal.jpg", "bird_normal");
 
 
         //LIGHTING
@@ -322,6 +324,114 @@ public:
             raccoon->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
         }
 
+
+        {
+            // create object by reading an obj mesh
+            auto fox = Add_Obj_Mesh_Object("obj/fox.obj");
+
+            // set object's transform
+
+            Matrix4f t;
+            Matrix4f r;
+            Matrix4f k;
+            
+            float angle = -79.0f; // Angle in degrees
+            float angleRad = radians(angle);
+
+            float z_angle = 40.0f; // Angle in degrees
+            float z_angleRad = radians(z_angle);
+
+
+            //rotate deer around the z axis
+            k << cos(z_angleRad), -sin(z_angleRad), 0.0, 0.0,
+                sin(z_angleRad), cos(z_angleRad), 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0;
+
+
+            //rotate deer around the x axis
+            r << 1.0, 0.0, 0.0, 0.0,
+                0.0, cos(angleRad),  -sin(angleRad),  0.0,
+                0.0, sin(angleRad),   cos(angleRad),  0.0,
+                0.0, 0.0, 0.0, 1.0;
+
+
+            t << .37, 0, 0, -4.5,
+                0, .37, 0, -2.4,
+                0, 0, .37, -8.0,
+                0, 0, 0, 1;
+
+
+            fox->Set_Model_Matrix(t * r * k);
+
+            // set object's material
+            fox->Set_Ka(Vector3f(0.1, 0.1, 0.1));
+            fox->Set_Kd(Vector3f(0.7, 0.7, 0.7));
+            fox->Set_Ks(Vector3f(2, 2, 2));
+            fox->Set_Shininess(128);
+
+            // bind texture to object
+            fox->Add_Texture("tex_color", OpenGLTextureLibrary::Get_Texture("fox_color"));
+            fox->Add_Texture("tex_normal", OpenGLTextureLibrary::Get_Texture("bunny_normal"));
+
+            // bind shader to object
+            fox->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
+        }
+
+
+
+        {
+            // create object by reading an obj mesh
+            auto bird = Add_Obj_Mesh_Object("obj/bird.obj");
+
+            // set object's transform
+
+            Matrix4f t;
+            Matrix4f r;
+            Matrix4f k;
+            
+            float angle = -79.0f; // Angle in degrees
+            float angleRad = radians(angle);
+
+            float z_angle = 40.0f; // Angle in degrees
+            float z_angleRad = radians(z_angle);
+
+
+            //rotate deer around the z axis
+            k << cos(z_angleRad), -sin(z_angleRad), 0.0, 0.0,
+                sin(z_angleRad), cos(z_angleRad), 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0;
+
+
+            //rotate deer around the x axis
+            r << 1.0, 0.0, 0.0, 0.0,
+                0.0, cos(angleRad),  -sin(angleRad),  0.0,
+                0.0, sin(angleRad),   cos(angleRad),  0.0,
+                0.0, 0.0, 0.0, 1.0;
+
+
+            t << .055, 0, 0, 2.5,
+                0, .055, 0, 0.256,
+                0, 0, .055, -14.85,
+                0, 0, 0, 1;
+
+
+            bird->Set_Model_Matrix(t * r * k);
+
+            // set object's material
+            bird->Set_Ka(Vector3f(0.1, 0.1, 0.1));
+            bird->Set_Kd(Vector3f(0.7, 0.7, 0.7));
+            bird->Set_Ks(Vector3f(2, 2, 2));
+            bird->Set_Shininess(128);
+
+            // bind texture to object
+            bird->Add_Texture("tex_color", OpenGLTextureLibrary::Get_Texture("bird_color"));
+            bird->Add_Texture("tex_normal", OpenGLTextureLibrary::Get_Texture("bird_normal"));
+
+            // bind shader to object
+            bird->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
+        }
 
 
 
