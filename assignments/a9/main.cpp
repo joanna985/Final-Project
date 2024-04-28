@@ -90,6 +90,10 @@ public:
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bluebird_color.jpg", "bluebird_color");
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bluebird_normal.jpg", "bluebird_normal");
 
+        
+        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/walker_color.png", "walker_color");
+        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/walker_normal.png", "walker_normal");
+
 
         //LIGHTING
         // Add all the lights you need for the scene (no more than 4 lights)
@@ -100,10 +104,10 @@ public:
         // You can also create your own lights by directly declaring them in a shader without using Add_Light().
         // Here we declared three default lights for you. Feel free to add/delete/change them at your will.
 
-        opengl_window->Add_Light(Vector3f(-2, 20,-15), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1)); 
-        opengl_window->Add_Light(Vector3f(-10, 20,-5), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
-        opengl_window->Add_Light(Vector3f(10, 20,10), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
-        opengl_window->Add_Light(Vector3f(5, 20,20), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
+        opengl_window->Add_Light(Vector3f(-2, 20, -15), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1)); 
+        opengl_window->Add_Light(Vector3f(-10, 20, -5), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
+        opengl_window->Add_Light(Vector3f(10, 20, 10), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
+        opengl_window->Add_Light(Vector3f(5, 20, 20), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
         
 
 
@@ -271,6 +275,8 @@ public:
             deer->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
         }
 
+
+        
 
 
         {
@@ -492,7 +498,65 @@ public:
         }
 
 
+        //walker
+        {
+            // create object by reading an obj mesh
+            auto man = Add_Obj_Mesh_Object("obj/walker.obj");
 
+            // set object's transform
+
+            Matrix4f t;
+            Matrix4f r;
+            Matrix4f k;
+            Matrix4f w;
+            
+            float angle = 0.0f; // Angle in degrees
+            float angleRad = radians(angle);
+
+            float z_angle = 0.0f; // Angle in degrees
+            float z_angleRad = radians(z_angle);
+
+            float y_angle = 90.0f; // Angle in degrees
+            float y_angleRad = radians(y_angle);
+
+            //rotate deer around the z axis
+            k << cos(z_angleRad), -sin(z_angleRad), 0.0, 0.0,
+                sin(z_angleRad), cos(z_angleRad), 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0;
+
+            //rotate deer around the x axis
+            r << 1.0, 0.0, 0.0, 0.0,
+                0.0, cos(angleRad),  -sin(angleRad),  0.0,
+                0.0, sin(angleRad),   cos(angleRad),  0.0,
+                0.0, 0.0, 0.0, 1.0;
+
+            //rotate deer around the y axis
+            w << cos(y_angleRad), 0, sin(y_angleRad), 0,
+                0, 1, 0, 0,
+                -sin(y_angleRad), 0, cos(y_angleRad), 0,
+                0, 0, 0, 1;
+
+            t << .025, 0, 0, -5.5,
+                0, .025, 0, -2.816,
+                0, 0, .025, -14.85,
+                0, 0, 0, 1;
+
+            man->Set_Model_Matrix(t * r * k * w);
+
+            // set object's material
+            man->Set_Ka(Vector3f(0.1, 0.1, 0.1));
+            man->Set_Kd(Vector3f(0.7, 0.7, 0.7));
+            man->Set_Ks(Vector3f(2, 2, 2));
+            man->Set_Shininess(128);
+
+            // bind texture to object
+            man->Add_Texture("tex_color", OpenGLTextureLibrary::Get_Texture("walker_color"));
+            man->Add_Texture("tex_normal", OpenGLTextureLibrary::Get_Texture("walker_normal"));
+
+            // bind shader to object
+            man->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
+        }
 
         {
             // create object by reading an obj mesh
