@@ -87,6 +87,9 @@ public:
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bird.jpg", "bird_color");
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bird_normal.jpg", "bird_normal");
 
+        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/redbird_color.jpg", "bluebird_color");
+        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bluebird_normal.jpg", "bluebird_normal");
+
 
         //LIGHTING
         // Add all the lights you need for the scene (no more than 4 lights)
@@ -379,7 +382,7 @@ public:
         }
 
 
-
+        //yellow bird
         {
             // create object by reading an obj mesh
             auto bird = Add_Obj_Mesh_Object("obj/bird.obj");
@@ -433,6 +436,61 @@ public:
             bird->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
         }
 
+
+
+        //blue bird
+        {
+            // create object by reading an obj mesh
+            auto bluebird = Add_Obj_Mesh_Object("obj/bluebird.obj");
+
+            // set object's transform
+
+            Matrix4f t;
+            Matrix4f r;
+            Matrix4f k;
+            
+            float angle = -79.0f; // Angle in degrees
+            float angleRad = radians(angle);
+
+            float z_angle = 180.0f; // Angle in degrees
+            float z_angleRad = radians(z_angle);
+
+
+            //rotate deer around the z axis
+            k << cos(z_angleRad), -sin(z_angleRad), 0.0, 0.0,
+                sin(z_angleRad), cos(z_angleRad), 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0;
+
+
+            //rotate deer around the x axis
+            r << 1.0, 0.0, 0.0, 0.0,
+                0.0, cos(angleRad),  -sin(angleRad),  0.0,
+                0.0, sin(angleRad),   cos(angleRad),  0.0,
+                0.0, 0.0, 0.0, 1.0;
+
+
+            t << .055, 0, 0, 1.80,
+                0, .055, 0, 0.260,
+                0, 0, .055, -14.25,
+                0, 0, 0, 1;
+
+
+            bluebird->Set_Model_Matrix(t * r * k);
+
+            // set object's material
+            bluebird->Set_Ka(Vector3f(0.1, 0.1, 0.1));
+            bluebird->Set_Kd(Vector3f(0.7, 0.7, 0.7));
+            bluebird->Set_Ks(Vector3f(2, 2, 2));
+            bluebird->Set_Shininess(128);
+
+            // bind texture to object
+            bluebird->Add_Texture("tex_color", OpenGLTextureLibrary::Get_Texture("bluebird_color"));
+            bluebird->Add_Texture("tex_normal", OpenGLTextureLibrary::Get_Texture("bluebird_normal"));
+
+            // bind shader to object
+            bluebird->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
+        }
 
 
 
