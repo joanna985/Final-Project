@@ -19,8 +19,9 @@ out vec4 outputColor;           /* output color */
 #define PI 3.14159265359
 #define TWO_PI 6.28318530718
 #define Gravity 0.7             /* gravity */
-#define NUM_FIREFLIES 25        /* number of fireworks */
-#define DURATION 3.             /* duration of each fireworks period */
+#define NUM_FIREFLIES 25        /* number of fireflies */
+#define NUM_SHOOTING_STARS 4    /* number of shooting stars */
+#define DURATION 3.             /* duration of each fireflies period */
 
 const vec2 g = vec2(.0, -Gravity); /* gravity */
 
@@ -55,15 +56,30 @@ vec2 randMov(vec2 p) {
 }
 
 
+vec3 renderStar(vec2 uv, vec2 pos, float brightness, vec3 color) {
+    float d = length(uv - pos);
+    return brightness / d * color;
+}
 
 
-/////////////////////////////////////////////////////
-//// Step 1: render a single particle
-//// In this function, you are asked to implement the rendering of a single particle onto the screen.
-//// The task is to calculate the distance between the current fragment and the particle (both in 2D), 
-//// and then use the distance to build a decay function f(d)=1/d, and multiply the function value with brightness and color
-//// to calculate the fragment color value.
-/////////////////////////////////////////////////////
+vec3 renderShootingStars(vec2 uv) {
+    vec3 fragColor = vec3(0.0);
+    float t = iTime;
+    vec2 initPos = vec2(1.0, 1.0);
+    vec2 initVel = vec2(-.1, -.03);
+
+    for (float i = 0; i < NUM_SHOOTING_STARS; i++) {
+        float brightness = .0015;
+        brightness *= sin(1.5 * t + i) * .5 + .5; // flicker
+        vec3 color = vec3(0.15, 0.71, 0.92);
+        vec2 pos = initPos + (initVel * t);
+
+        fragColor += renderStar(uv, pos, brightness, color);
+    }
+
+    return fragColor;
+}
+
 
 vec4 renderParticle(vec2 uv, vec2 pos, vec3 color, float num)
 {
@@ -72,8 +88,11 @@ vec4 renderParticle(vec2 uv, vec2 pos, vec3 color, float num)
     float pointDistance = distance(uv, point)*2.0;
     // Adjust the size of the point light contribution based on distance
     vec3 firefly = vec3(.002 / pointDistance) * vec3(sin(iTime + num) / 12.0);
+    vec3 shootingStars = renderShootingStars(uv);
+    firefly += shootingStars;
     return vec4(firefly/pointDistance* color, firefly / pointDistance);
 }
+
 
 
 
@@ -96,8 +115,6 @@ void mainImage(out vec4 outputColor, in vec2 fragCoord)
 
     }
     // Adjust overall brightness of the point light
-    
-
     outputColor = firefly;
 }
 
