@@ -41,6 +41,7 @@ uniform vec3 kd;            /* object material diffuse */
 uniform vec3 ks;            /* object material specular */
 uniform float shininess;    /* object material shininess */
 
+
 /*vec2 hash2(vec2 v) {
 	vec2 rand = vec2(0,0);
 	
@@ -51,6 +52,8 @@ uniform float shininess;    /* object material shininess */
     rand = -1.0 + 3.1 * fract(rand.x * rand.y * rand.yx);
 	return rand;
 }*/
+
+
 
 
 vec2 hash2(vec2 v) {
@@ -180,6 +183,18 @@ vec4 shading_phong(light li, vec3 e, vec3 p, vec3 s, vec3 n) {
 
 
 vec3 shading_grass(vec3 pos) {
+
+    /*    float xPosition = pos.x;
+    float yPosition = pos.y;
+    float zPosition = pos.z;
+
+    int index = rand() % 300;
+    if (full < numGrass) {    
+        grassVectors[index] = pos;
+        full++;
+    }*/
+
+    
 	vec3 n = compute_normal(pos.xy, 0.01);
     vec3 e = position.xyz;
     vec3 p = pos.xyz;
