@@ -13,6 +13,11 @@
 #include <unordered_set>
 #include <vector>
 #include <string>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <cstdlib>
+
 
 #ifndef __Main_cpp__
 #define __Main_cpp__
@@ -30,6 +35,9 @@ class MyDriver : public OpenGLViewer
 
     OpenGLScreenCover *screen_cover = nullptr;
 
+
+
+
 public:
     virtual void Initialize()
     {
@@ -39,17 +47,54 @@ public:
     }
 
 
-    /*Joanna's algorithm
+    /*Joanna Zolnik's Technical Algorithm
     In this algorithm, I use procedural generation to cover the terrain in grass.
-    I will be using a procedural noise function in this modeling algorithm.
-    The modeling algorithm that I will use is simplex noise.*/
-    /*virtual vec2 SimplexNoise(vec2 pos) {
-        return 
-    }
-    virtual void SimplexGrassModeling() {
-        for () {
+    I've decided to use randomized instancing for the x and z coordinates in the 
+    procedural generation.*/
+    
+    virtual void generateGrass() {
+        float numGrass = 300;
+        float xPosition = 3.8;
+        float yPosition = -3.4;
+        float zPosition = -5.0;
+
+        std::srand(std::time(nullptr));
+
+        for (int i = 0; i < numGrass; i++) {
+            
+            xPosition = static_cast<float>(std::rand()) / RAND_MAX * 31.0 - 14.0;
+            yPosition = -4.0;
+            zPosition = static_cast<float>(std::rand()) / RAND_MAX * 30.0 - 31.0;
+            
+            {
+                // create object by reading an obj mesh
+                auto grass = Add_Obj_Mesh_Object("obj/grass.obj");
+
+                // set object's transform
+                Matrix4f t;
+                t << 2.5, 0, 0, xPosition,
+                    0, 2.5, 0, yPosition,
+                    0, 0, 2.5, zPosition,
+                    0, 0, 0, 1;
+
+                grass->Set_Model_Matrix(t);
+
+                // set object's material
+                grass->Set_Ka(Vector3f(0.1, 0.2, 0.2));
+                grass->Set_Kd(Vector3f(0.6, 0.8, 0.7));
+                grass->Set_Ks(Vector3f(2, 3, 2));
+                grass->Set_Shininess(140);
+
+                // bind texture to object
+                grass->Add_Texture("tex_color", OpenGLTextureLibrary::Get_Texture("grass_color"));
+
+                // bind shader to object
+                grass->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
+            }
         }
-    }*/
+
+    }
+
 
 
 
@@ -105,6 +150,8 @@ public:
 
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bluebird_color.jpg", "bluebird_color");
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/bluebird_normal.jpg", "bluebird_normal");
+
+        OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/grass_color.png", "grass_color");
 
         
         OpenGLTextureLibrary::Instance()->Add_Texture_From_File("tex/walker_color.png", "walker_color");
@@ -240,6 +287,8 @@ public:
         // }
 
         
+        generateGrass();
+
 
         // Here we load a bunny object with the basic shader to show how to add an object into the scene
         {
