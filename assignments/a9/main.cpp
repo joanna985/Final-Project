@@ -28,6 +28,8 @@ class MyDriver : public OpenGLViewer
     OpenGLSkybox *skybox = nullptr;
     clock_t startTime;
 
+    OpenGLScreenCover *screen_cover = nullptr;
+
 public:
     virtual void Initialize()
     {
@@ -68,7 +70,7 @@ public:
         OpenGLShaderLibrary::Instance()->Add_Shader_From_File("shaders/billboard.vert", "shaders/alphablend.frag", "billboard");
         OpenGLShaderLibrary::Instance()->Add_Shader_From_File("shaders/terrain.vert", "shaders/terrain.frag", "terrain");
         OpenGLShaderLibrary::Instance()->Add_Shader_From_File("shaders/skybox.vert", "shaders/skybox.frag", "skybox");
-
+        OpenGLShaderLibrary::Instance()->Add_Shader_From_File("shaders/fireflies.vert", "shaders/fireflies.frag", "fireflies");
         // Load all the textures you need for the scene
         // In the function call of Add_Shader_From_File(), we specify two names:
         // (1) the texture's file name
@@ -124,7 +126,18 @@ public:
         opengl_window->Add_Light(Vector3f(5, 20, 20), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
         
 
+        // fireflies
+        {
 
+        // screen_cover = Add_Interactive_Object<OpenGLScreenCover>();
+        // Set_Polygon_Mode(screen_cover, PolygonMode::Fill);
+
+        // screen_cover->Set_Data_Refreshed();
+        // screen_cover->Initialize();
+        // screen_cover->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("fireflies"));
+        // screen_cover->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("blend"));
+
+        }
         // Add the background / environment
         // Here we provide you with four default options to create the background of your scene:
         // (1) Gradient color (like A1 and A2; if you want a simple background, use this one)
@@ -141,6 +154,20 @@ public:
             bg->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("stars"));
             bg->Initialize();
         }
+
+        // fireflies
+        {
+            bgEffect = Add_Interactive_Object<OpenGLBgEffect>();
+            bgEffect->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("fireflies"));
+            //bgEffect->Add_Texture("tex_buzz", OpenGLTextureLibrary::Get_Texture("buzz_color")); // bgEffect can also Add_Texture
+            //bgEffect->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("blend"));
+            bgEffect->Initialize();
+        }
+
+
+        // fireflies
+        
+        
         
 
         // Background Option (2): Programmable Canvas
@@ -155,52 +182,64 @@ public:
 
         // Background Option (3): Sky box
         // Here we provide a default implementation of a sky box; customize it for your own sky box
-        /*{
-            // from https://www.humus.name/index.php?page=Textures
-            const std::vector<std::string> cubemap_files{
-                "cubemap/negx.jpg",     // + X
-                "cubemap/negy.jpg",     // - X
-                "cubemap/negz.jpg",     // + Y
-                "cubemap/posx.jpg",     // - Y
-                "cubemap/posy.jpg",     // + Z
-                "cubemap/posz.jpg",     // - Z 
-            };
-            OpenGLTextureLibrary::Instance()->Add_CubeMap_From_Files(cubemap_files, "cube_map");
+        // {
+        //     // from https://www.humus.name/index.php?page=Textures
+        //     const std::vector<std::string> cubemap_files{
+        //         "cubemap/negx.jpg",     // + X
+        //         "cubemap/negy.jpg",     // - X
+        //         "cubemap/negz.jpg",     // + Y
+        //         "cubemap/posx.jpg",     // - Y
+        //         "cubemap/posy.jpg",     // + Z
+        //         "cubemap/posz.jpg",     // - Z 
+        //     };
+        //     OpenGLTextureLibrary::Instance()->Add_CubeMap_From_Files(cubemap_files, "cube_map");
 
-            skybox = Add_Interactive_Object<OpenGLSkybox>();
-            skybox->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("skybox"));
-            skybox->Initialize();
-        }*/
+        //     skybox = Add_Interactive_Object<OpenGLSkybox>();
+        //     skybox->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("skybox"));
+        //     skybox->Initialize();
+        // }
+
+
+
+      
+
+        // screen_cover = Add_Interactive_Object<OpenGLScreenCover>();
+            
+        // screen_cover->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("fireflies"));
+        // screen_cover->Initialize();
+        // //screen_cover->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("blend"));
+        // }
         
 
         // Background Option (4): Sky sphere
         // Here we provide a default implementation of a textured sphere; customize it for your own sky sphere
-        /*{
-            // create object by reading an obj mesh
-            auto sphere = Add_Obj_Mesh_Object("obj/sphere.obj");
+        // {
+        //     // create object by reading an obj mesh
+        //     auto sphere = Add_Obj_Mesh_Object("obj/sphere.obj");
 
-            // set object's transform
-            Matrix4f t;
-            t << 1, 0, 0, -1.5,
-                0, 1, 0, -1,
-                0, 0, 1, 0.5,
-                0, 0, 0, 1;
-            sphere->Set_Model_Matrix(t);
+        //     // set object's transform
+        //     Matrix4f t;
+        //     t << 1, 0, 0, -1.5,
+        //         0, 1, 0, -1,
+        //         0, 0, 1, 0.5,
+        //         0, 0, 0, 1;
+        //     sphere->Set_Model_Matrix(t);
 
-            // set object's material
-            sphere->Set_Ka(Vector3f(0.1, 0.1, 0.1));
-            sphere->Set_Kd(Vector3f(0.7, 0.7, 0.7));
-            sphere->Set_Ks(Vector3f(2, 2, 2));
-            sphere->Set_Shininess(128);
+        //     // set object's material
+        //     sphere->Set_Ka(Vector3f(0.1, 0.1, 0.1));
+        //     sphere->Set_Kd(Vector3f(0.7, 0.7, 0.7));
+        //     sphere->Set_Ks(Vector3f(2, 2, 2));
+        //     sphere->Set_Shininess(128);
 
-            // bind texture to object
-            sphere->Add_Texture("tex_color", OpenGLTextureLibrary::Get_Texture("sphere_color"));
-            sphere->Add_Texture("tex_normal", OpenGLTextureLibrary::Get_Texture("sphere_normal"));
+        //     // bind texture to object
+        //     sphere->Add_Texture("tex_color", OpenGLTextureLibrary::Get_Texture("sphere_color"));
+        //     sphere->Add_Texture("tex_normal", OpenGLTextureLibrary::Get_Texture("sphere_normal"));
 
-            // bind shader to object
-            sphere->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
-        }*/
+        //     // bind shader to object
+        //     sphere->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("basic"));
+        // }
 
+        
 
         // Here we load a bunny object with the basic shader to show how to add an object into the scene
         {
@@ -1027,7 +1066,12 @@ public:
             bgEffect->setResolution((float)Win_Width(), (float)Win_Height());
             bgEffect->setTime(GLfloat(clock() - startTime) / CLOCKS_PER_SEC);
             bgEffect->setFrame(frame++);
+        } else if (screen_cover) {
+            //screen_cover->setResolution((float)Win_Width(), (float)Win_Height());
+            screen_cover->setTime(GLfloat(clock() - startTime) / CLOCKS_PER_SEC);
+            screen_cover->setFrame(frame++);
         }
+
         OpenGLViewer::Toggle_Next_Frame();
     }
 

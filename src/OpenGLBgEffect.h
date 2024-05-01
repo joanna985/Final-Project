@@ -69,6 +69,7 @@ public:
         std::shared_ptr<OpenGLShaderProgram> shader = shader_programs[0];
         shader->Begin();
         glDepthMask(GL_FALSE);
+        Enable_Alpha_Blend();
 
         shader->Set_Uniform("iResolution", iResolution);
         shader->Set_Uniform("iTime", iTime);
