@@ -65,14 +65,15 @@ vec3 renderStar(vec2 uv, vec2 pos, float brightness, vec3 color) {
 vec3 renderShootingStars(vec2 uv) {
     vec3 fragColor = vec3(0.0);
     float t = iTime;
-    vec2 initPos = vec2(1.0, 1.0);
+    vec2 initPos = vec2(1.3, 1.2);
     vec2 initVel = vec2(-.1, -.03);
 
     for (float i = 0; i < NUM_SHOOTING_STARS; i++) {
         float brightness = .0015;
+        initPos = vec2(initPos.x + (i * .1), initPos.y); 
         brightness *= sin(1.5 * t + i) * .5 + .5; // flicker
         vec3 color = vec3(0.15, 0.71, 0.92);
-        vec2 pos = initPos + (initVel * t);
+        vec2 pos = (initPos) + (initVel * t);
 
         fragColor += renderStar(uv, pos, brightness, color);
     }
