@@ -48,8 +48,49 @@ uniform sampler2D tex_normal;   /* texture sampler for normal vector */
 /*output variables*/
 out vec4 frag_color;
 
+// vec4 shading_texture_with_color() 
+// {
+//     vec4 color = vec4(0.0);     //// we set the default color to be black, update its value in your implementation below
+//     vec2 uv = vtx_uv;           //// the uv coordinates you need to read texture values
+
+//     /* your implementation starts */
+//     color = texture(tex_color, uv);
+
+//     /* your implementation ends */
+
+//     return color;
+// }
+
 vec3 shading_texture_with_phong(light li, vec3 e, vec3 p, vec3 s, vec3 n)
 {
+    // vec3 color = vec3(0.0);
+    // vec3 l = normalize(s-p);
+    // float result = 0.0;
+    // for (int i = 0; i < 3; i++) {
+    //     result += l[i]*n[i];
+    // }
+    // float max = 0.0;
+    // if(0.0 < result) {
+    //     max = result;
+    // }
+
+    // vec3 v = normalize(e-p);
+    // vec3 r = normalize(reflect(-l,n));
+    // float result2 = 0.0;
+    // for (int i = 0; i < 3; i++) {
+    //     result2 += v[i]*r[i];
+    // }
+    // float max2 = 0.0;
+    // if(0.0 < result2) {
+    //     max2 = result2;
+    // }
+
+    //color = ka*li.amb + kd*li.dif*max + ks*li.spec*pow(max2,shininess);
+    
+
+
+    /* your implementation ends */
+
     return vec3(0.0);
 }
 

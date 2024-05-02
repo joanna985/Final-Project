@@ -108,6 +108,7 @@ public:
         // object->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("shader_name"));
         // Here "shader_name" needs to be one of the shader names you created previously with Add_Shader_From_File()
 
+
         OpenGLShaderLibrary::Instance()->Add_Shader_From_File("shaders/basic.vert", "shaders/basic.frag", "basic");
         OpenGLShaderLibrary::Instance()->Add_Shader_From_File("shaders/basic.vert", "shaders/environment.frag", "environment");
         OpenGLShaderLibrary::Instance()->Add_Shader_From_File("shaders/stars.vert", "shaders/stars.frag", "stars");
@@ -116,6 +117,7 @@ public:
         OpenGLShaderLibrary::Instance()->Add_Shader_From_File("shaders/terrain.vert", "shaders/terrain.frag", "terrain");
         OpenGLShaderLibrary::Instance()->Add_Shader_From_File("shaders/skybox.vert", "shaders/skybox.frag", "skybox");
         OpenGLShaderLibrary::Instance()->Add_Shader_From_File("shaders/fireflies.vert", "shaders/fireflies.frag", "fireflies");
+        //OpenGLShaderLibrary::Instance()->Add_Shader_From_File("shaders/bird.vert", "shaders/bird.frag", "bird");
         // Load all the textures you need for the scene
         // In the function call of Add_Shader_From_File(), we specify two names:
         // (1) the texture's file name
@@ -167,24 +169,23 @@ public:
         // You can also create your own lights by directly declaring them in a shader without using Add_Light().
         // Here we declared three default lights for you. Feel free to add/delete/change them at your will.
 
-        opengl_window->Add_Light(Vector3f(-2, 20, -15), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1)); 
-        opengl_window->Add_Light(Vector3f(-10, 20, -5), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
-        opengl_window->Add_Light(Vector3f(10, 20, 10), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
-        opengl_window->Add_Light(Vector3f(5, 20, 20), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
+        // opengl_window->Add_Light(Vector3f(-2, 20, -15), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1)); 
+        // opengl_window->Add_Light(Vector3f(-10, 20, -5), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
+        // opengl_window->Add_Light(Vector3f(10, 20, 10), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
+        // opengl_window->Add_Light(Vector3f(5, 20, 20), Vector3f(1, 1, 1), Vector3f(1, 1, 1), Vector3f(1, 1, 1));
         
+        // Soft overhead light settings
+        Vector3f lightColor(0.8f, 0.8f, 0.8f); // Soft white color for the light
+        Vector3f ambientColor(0.5f, 0.5f, 0.5f); // Ambient color to fill in shadows
+        Vector3f varied(1.0f, 0.09f, 0.032f); // varied for softness
 
-        // fireflies
-        {
+        // Add soft overhead lights
+        opengl_window->Add_Light(Vector3f(-2, 20, -15), lightColor, ambientColor, varied);
+        opengl_window->Add_Light(Vector3f(-10, 20, -5), lightColor, ambientColor, varied);
+        opengl_window->Add_Light(Vector3f(10, 20, 10), lightColor, ambientColor, varied);
+        opengl_window->Add_Light(Vector3f(5, 20, 20), lightColor, ambientColor, varied);
 
-        // screen_cover = Add_Interactive_Object<OpenGLScreenCover>();
-        // Set_Polygon_Mode(screen_cover, PolygonMode::Fill);
-
-        // screen_cover->Set_Data_Refreshed();
-        // screen_cover->Initialize();
-        // screen_cover->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("fireflies"));
-        // screen_cover->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("blend"));
-
-        }
+       
         // Add the background / environment
         // Here we provide you with four default options to create the background of your scene:
         // (1) Gradient color (like A1 and A2; if you want a simple background, use this one)
@@ -211,10 +212,23 @@ public:
             bgEffect->Initialize();
         }
 
+        // bird
+        // {
+            
+        //     bgEffect = Add_Interactive_Object<OpenGLBgEffect>();
+        //     bgEffect->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("bird"));
+        //     //bgEffect->Add_Texture("tex_buzz", OpenGLTextureLibrary::Get_Texture("buzz_color")); // bgEffect can also Add_Texture
+        //     //bgEffect->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("blend"));
+        //     bgEffect->Initialize();
+        // // screen_cover = Add_Interactive_Object<OpenGLScreenCover>();
+        // // Set_Polygon_Mode(screen_cover, PolygonMode::Fill);
 
-        // fireflies
-        
-        
+        // // screen_cover->Set_Data_Refreshed();
+        // // screen_cover->Initialize();
+        // // screen_cover->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("bird"));
+        // // screen_cover->Add_Shader_Program(OpenGLShaderLibrary::Get_Shader("blend"));
+
+        // }
         
 
         // Background Option (2): Programmable Canvas
@@ -516,8 +530,8 @@ public:
                 0.0, 0.0, 0.0, 1.0;
 
 
-            t << .055, 0, 0, 2.5,
-                0, .055, 0, -0.916,
+            t << .055, 0, 0, 2.5 ,
+                0, .055, 0, -0.916 ,
                 0, 0, .055, -17.09,
                 0, 0, 0, 1;
 

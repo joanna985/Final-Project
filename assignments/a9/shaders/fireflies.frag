@@ -7,11 +7,7 @@ in vec2 fragCoord;              /* screen space coordinate */
 out vec4 outputColor;           /* output color */
 
 /////////////////////////////////////////////////////
-//// Macro definition for time: this is the actual time you use for your animation
-/////////////////////////////////////////////////////
-//// You may adjust the multipler below to make the animaiton run fast (by increasing the value) 
-//// or run slower (by decreasing the value), according to your needs (it varies on different laptops).
-//// We set the default value to be 1.0.
+//// tess's implementation for fireflies
 /////////////////////////////////////////////////////
 
 #define Time (iTime*1.0)            
@@ -19,15 +15,16 @@ out vec4 outputColor;           /* output color */
 #define PI 3.14159265359
 #define TWO_PI 6.28318530718
 #define Gravity 0.7             /* gravity */
-#define NUM_FIREFLIES 25        /* number of fireflies */
-#define NUM_SHOOTING_STARS 4    /* number of shooting stars */
+#define NUM_FIREFLIES 30.        /* number of fireworks */
+#define DURATION 3.             /* duration of each fireworks period */
+#define NUM_SHOOTING_STARS 4.    /* number of shooting stars */
 #define DURATION 3.             /* duration of each fireflies period */
 
 const vec2 g = vec2(.0, -Gravity); /* gravity */
 
 
 /////////////////////////////////////////////////////
-//// Hash functions
+//// Fireflies functions
 /////////////////////////////////////////////////////
 
 //// This hash function takes input t and returns random float between 0 and 1
@@ -68,7 +65,7 @@ vec3 renderShootingStars(vec2 uv) {
     vec2 initPos = vec2(1.3, 1.2);
     vec2 initVel = vec2(-.1, -.03);
 
-    for (float i = 0; i < NUM_SHOOTING_STARS; i++) {
+    for (float i = 0.; i < NUM_SHOOTING_STARS; i++) {
         float brightness = .0015;
         initPos = vec2(initPos.x + (i * .1), initPos.y); 
         brightness *= sin(1.5 * t + i) * .5 + .5; // flicker
@@ -97,8 +94,12 @@ vec4 renderParticle(vec2 uv, vec2 pos, vec3 color, float num)
 
 
 
+
+
 void mainImage(out vec4 outputColor, in vec2 fragCoord)
 {
+
+    // fireflies
     // //// fragPos's center is at the center of the screen, fragPos.y range is [-0.5, 0.5]
     vec2 fragPos = (fragCoord - .5 * iResolution.xy) / iResolution.y;
     
